@@ -28,4 +28,28 @@ defmodule Aoc2021 do
       |> count
     end
   end
+
+  defmodule Day2 do
+    defp read_input(filename) do
+      File.stream!(filename)
+      |> Stream.map(fn v ->
+        [dir, val] = String.trim(v) |> String.split(" ")
+
+        {String.to_atom(dir), String.to_integer(val)}
+      end)
+    end
+
+    def run2_1(filename) do
+      {x, y} = read_input(filename)
+               |> Enum.reduce({0, 0}, fn {d, v}, {x, y} ->
+                    case d do
+                      :forward -> {x + v, y}
+                      :up -> {x, y - v}
+                      :down -> {x, y + v}
+                    end
+                  end)
+
+      x * y
+    end
+  end
 end
