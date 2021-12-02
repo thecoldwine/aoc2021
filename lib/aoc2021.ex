@@ -35,14 +35,14 @@ defmodule Aoc2021 do
       |> Stream.map(&String.trim/1)
     end
 
-
     defp reduce_aimless("forward " <> val, {x, y}), do: {x + String.to_integer(val), y}
     defp reduce_aimless("up " <> val, {x, y}), do: {x, y - String.to_integer(val)}
     defp reduce_aimless("down " <> val, {x, y}), do: {x, y + String.to_integer(val)}
 
     def run2_1(filename) do
-      {x, y} = read_input(filename)
-               |> Enum.reduce({0, 0}, &reduce_aimless/2)
+      {x, y} =
+        read_input(filename)
+        |> Enum.reduce({0, 0}, &reduce_aimless/2)
 
       x * y
     end
@@ -56,8 +56,9 @@ defmodule Aoc2021 do
     defp reduce_aimed("down " <> val, {x, y, aim}), do: {x, y, aim + String.to_integer(val)}
 
     def run2_2(filename) do
-      {x, y, _} = read_input(filename)
-                    |> Enum.reduce({0, 0, 0}, &reduce_aimed/2)
+      {x, y, _} =
+        read_input(filename)
+        |> Enum.reduce({0, 0, 0}, &reduce_aimed/2)
 
       x * y
     end
