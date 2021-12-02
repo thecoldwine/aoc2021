@@ -35,7 +35,7 @@ defmodule Aoc2021 do
       |> Stream.map(fn v ->
         [dir, val] = String.trim(v) |> String.split(" ")
 
-        {String.to_atom(dir), String.to_integer(val)}
+        {String.to_existing_atom(dir), String.to_integer(val)}
       end)
     end
 
