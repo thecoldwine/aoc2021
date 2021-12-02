@@ -32,20 +32,18 @@ defmodule Aoc2021 do
   defmodule Day2 do
     defp read_input(filename) do
       File.stream!(filename)
-      |> Stream.map(fn v ->
-        [dir, val] = String.trim(v) |> String.split(" ")
-
-        {String.to_existing_atom(dir), String.to_integer(val)}
-      end)
+      |> Stream.map(fn v -> String.trim(v) |> String.split(" ") end)
     end
 
     def run2_1(filename) do
       {x, y} = read_input(filename)
-               |> Enum.reduce({0, 0}, fn {d, v}, {x, y} ->
+               |> Enum.reduce({0, 0}, fn [d, v], {x, y} ->
+                    v = String.to_integer(v)
+
                     case d do
-                      :forward -> {x + v, y}
-                      :up -> {x, y - v}
-                      :down -> {x, y + v}
+                      "forward" -> {x + v, y}
+                      "up" -> {x, y - v}
+                      "down" -> {x, y + v}
                     end
                   end)
 
