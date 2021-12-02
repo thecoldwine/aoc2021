@@ -32,20 +32,32 @@ defmodule Aoc2021 do
   defmodule Day2 do
     defp read_input(filename) do
       File.stream!(filename)
-      |> Stream.map(fn v -> String.trim(v) |> String.split(" ") end)
+      |> Stream.map(&String.trim/1)
     end
+
+
+    defp reduce_aimless("forward " <> val, {x, y}), do: {x + String.to_integer(val), y}
+    defp reduce_aimless("up " <> val, {x, y}), do: {x, y - String.to_integer(val)}
+    defp reduce_aimless("down " <> val, {x, y}), do: {x, y + String.to_integer(val)}
 
     def run2_1(filename) do
       {x, y} = read_input(filename)
-               |> Enum.reduce({0, 0}, fn [d, v], {x, y} ->
-                    v = String.to_integer(v)
+               |> Enum.reduce({0, 0}, &reduce_aimless/2)
 
-                    case d do
-                      "forward" -> {x + v, y}
-                      "up" -> {x, y - v}
-                      "down" -> {x, y + v}
-                    end
-                  end)
+      x * y
+    end
+
+    defp reduce_aimed("forward " <> val, {x, y, aim}) do
+      v = String.to_integer(val)
+      {x + v, y + aim * v, aim}
+    end
+
+    defp reduce_aimed("up " <> val, {x, y, aim}), do: {x, y, aim - String.to_integer(val)}
+    defp reduce_aimed("down " <> val, {x, y, aim}), do: {x, y, aim + String.to_integer(val)}
+
+    def run2_2(filename) do
+      {x, y, _} = read_input(filename)
+                    |> Enum.reduce({0, 0, 0}, &reduce_aimed/2)
 
       x * y
     end
